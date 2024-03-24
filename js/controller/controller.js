@@ -45,4 +45,24 @@ function renderDSNV(DSNV) {
 
   getEle("#tableDanhSach").innerHTML = contentHTML;
 }
+function hienThiFormSua(nhanVien) {
+  // Hiển thị modal
+  $("#myModal").modal("show");
 
+  // Đặt tiêu đề modal thành "Sửa nhân viên"
+  $("#header-title").text("Sửa nhân viên");
+
+  // Hiển thị thông tin của nhân viên vào các trường nhập liệu
+  getEle("#tknv").value = nhanVien.taiKhoan;
+  getEle("#name").value = nhanVien.hoTen;
+  getEle("#email").value = nhanVien.email;
+  getEle("#password").value = nhanVien.matKhau;
+  getEle("#datepicker").value = nhanVien.ngayLam;
+  getEle("#luongCB").value = nhanVien.luongCB;
+  getEle("#chucvu").value = nhanVien.chucVu;
+  getEle("#gioLam").value = nhanVien.gioLam;
+
+  // Ẩn button "Thêm người dùng", hiển thị button "Cập nhật"
+  $("#btnThemNV").hide();
+  $("#btnCapNhat").show();
+}

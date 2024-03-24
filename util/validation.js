@@ -47,13 +47,13 @@ function kiemTraDoDai(min, max, value, idErr, message) {
     return true;
   }
 }
-// kiểm tra trùng tài khoản
+// kiểm tra trùng tài khoản hoặc email
 function kiemTraTrung(value, array, idErr, message) {
-  var viTri = array.findIndex(function (sv) {
-    return sv.taiKhoan === value;
+  var viTri = array.findIndex(function (nv) {
+    return nv.taiKhoan === value;
   });
-  var viTriEmail = array.findIndex(function (sv) {
-    return sv.email=== value;
+  var viTriEmail = array.findIndex(function (nv) {
+    return nv.email === value;
   });
   if (viTri != -1 || viTriEmail!=-1) {
     getEle(idErr).innerHTML = message;
@@ -64,21 +64,6 @@ function kiemTraTrung(value, array, idErr, message) {
     return true;
   }
 }
-// // kiểm tra trùng email
-// function kiemTraTrungEmail(value, array, idErr, message) {
-//   var viTri = array.findIndex(function (sv) {
-//     return sv.email === value;
-//   });
-//   if (viTri != -1) {
-//     getEle(idErr).innerHTML = message;
-//     getEle(idErr).style.display = "flex";
-//     return false;
-//   } else {
-//     getEle(idErr).innerHTML = "";
-//     return true;
-//   }
-// }
-// kiểm tra email
 function kiemTraEmail(value, idErr, message) {
   const re =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

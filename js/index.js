@@ -1,5 +1,21 @@
 var DSNV = [];
-
+var JsonData = localStorage.getItem("DSNV_LOCAL");
+if (JsonData !== null) {
+  JsonData = JSON.parse(JsonData);
+  DSNV = JsonData.map(function (item) {
+    return new NhanVien(
+      item.taiKhoan,
+      item.hoTen,
+      item.email,
+      item.matKhau,
+      item.ngayLam,
+      item.luongCB,
+      item.chucVu,
+      item.gioLam
+    );
+  });
+  renderDSNV(DSNV);
+}
 document.querySelector("#btnThemNV").onclick = function () {
   var nv = layThongTin();
   var isVaLid = kiemTraRong(
@@ -20,7 +36,7 @@ document.querySelector("#btnThemNV").onclick = function () {
       "#tbTKNV",
       "Độ dài phải từ 4 đến 6 kí số"
     ) &&
-    kiemTraTrung(nv.taiKhoan, DSNV, "#tbTKNV", "Tài khoản bị trùng");
+    kiemTraTrungTK(nv.taiKhoan, DSNV, "#tbTKNV", "Tài khoản bị trùng");
   isVaLid &=
     kiemTraRong(
       nv.hoTen,
@@ -30,7 +46,7 @@ document.querySelector("#btnThemNV").onclick = function () {
   isVaLid &=
     kiemTraRong(nv.email, "#tbEmail", "Email Không được để rỗng") &&
     kiemTraEmail(nv.email, "#tbEmail", "Email không đúng định dạng") &&
-    kiemTraTrung(nv.email, DSNV, "#tbEmail", "Email Đã Tồn Tại");
+    kiemTraTrungEmail(nv.email, DSNV, "#tbEmail", "Email Đã Tồn Tại");
   isVaLid &=
     kiemTraRong(nv.matKhau, "#tbMatKhau", "Mật Khẩu Không được để rỗng") &&
     kiemTraDoDai(
@@ -58,6 +74,8 @@ document.querySelector("#btnThemNV").onclick = function () {
     kiemTraDoDai(80, 200, nv.gioLam, "#tbGiolam", "Giờ làm phải từ 80-200 giờ");
   if (isVaLid) {
     DSNV.push(nv);
+    var dataJson = JSON.stringify(DSNV);
+    localStorage.setItem("DSNV_LOCAL", dataJson);
     renderDSNV(DSNV);
   }
 };
@@ -69,6 +87,8 @@ function xoaNV(taiKhoan) {
   });
   if (viTri != -1) {
     DSNV.splice(viTri, 1);
+    var dataJson = JSON.stringify(DSNV);
+    localStorage.setItem("DSNV_LOCAL", dataJson);
     renderDSNV(DSNV);
   }
 }
@@ -112,7 +132,8 @@ getEle("#btnCapNhat").onclick = function () {
     ) && kiemTraChuoi(nv.hoTen, "#tbTen", "Họ Tên chỉ có thể là chữ");
   isVaLid &=
     kiemTraRong(nv.email, "#tbEmail", "Email Không được để rỗng") &&
-    kiemTraEmail(nv.email, "#tbEmail", "Email không đúng định dạng") ;
+    kiemTraEmail(nv.email, "#tbEmail", "Email không đúng định dạng") &&
+    kiemTraTrungEmail(nv.email, DSNV, "#tbEmail", "Email Đã Tồn Tại");
   isVaLid &=
     kiemTraRong(nv.matKhau, "#tbMatKhau", "Mật Khẩu Không được để rỗng") &&
     kiemTraDoDai(
@@ -139,6 +160,8 @@ getEle("#btnCapNhat").onclick = function () {
     kiemTraRong(nv.gioLam, "#tbGiolam", "Giờ làm Không được để rỗng") &&
     kiemTraDoDai(80, 200, nv.gioLam, "#tbGiolam", "Giờ làm phải từ 80-200 giờ");
   if (isVaLid) {
+    var dataJson = JSON.stringify(DSNV);
+    localStorage.setItem("DSNV_LOCAL", dataJson);
     renderDSNV(DSNV);
   }
 };
@@ -160,4 +183,18 @@ getEle("#btnThem").onclick = function () {
   // Hiển thị nút "Thêm nhân viên" và ẩn nút "Cập nhật"
   $("#btnThemNV").show();
   $("#btnCapNhat").hide();
+};
+
+// Tìm Kiếm
+getEle("#btnTimNV").onclick = function () {
+  var textSearch = getEle("#searchName").value.trim()?.toLowerCase();
+  var resultSearch = [];
+  if (textSearch.length > 0) {
+    resultSearch = DSNV.filter(function (nv) {
+      return nv.xepLoai().toLowerCase().includes(textSearch);
+    });
+    renderDSNV(resultSearch);
+  } else {
+    renderDSNV(DSNV);
+  }
 };

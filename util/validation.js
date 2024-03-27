@@ -48,14 +48,24 @@ function kiemTraDoDai(min, max, value, idErr, message) {
   }
 }
 // kiểm tra trùng tài khoản hoặc email
-function kiemTraTrung(value, array, idErr, message) {
+function kiemTraTrungTK(value, array, idErr, message) {
   var viTri = array.findIndex(function (nv) {
     return nv.taiKhoan === value;
   });
-  var viTriEmail = array.findIndex(function (nv) {
+  if (viTri != -1) {
+    getEle(idErr).innerHTML = message;
+    getEle(idErr).style.display = "flex";
+    return false;
+  } else {
+    getEle(idErr).innerHTML = "";
+    return true;
+  }
+}
+function kiemTraTrungEmail(value, array, idErr, message) {
+  var viTri = array.findIndex(function (nv) {
     return nv.email === value;
   });
-  if (viTri != -1 || viTriEmail!=-1) {
+  if (viTri != -1) {
     getEle(idErr).innerHTML = message;
     getEle(idErr).style.display = "flex";
     return false;

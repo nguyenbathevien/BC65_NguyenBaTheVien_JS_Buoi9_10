@@ -61,9 +61,9 @@ function kiemTraTrungTK(value, array, idErr, message) {
     return true;
   }
 }
-function kiemTraTrungEmail(value, array, idErr, message) {
+function kiemTraTrungEmail(value, array, idErr, message, idTk) {
   var viTri = array.findIndex(function (nv) {
-    return nv.email === value;
+    return nv.email === value && nv.taiKhoan !== idTk;
   });
   if (viTri != -1) {
     getEle(idErr).innerHTML = message;
@@ -105,26 +105,24 @@ function kiemTraMatKhau(value, idErr, message) {
   }
 }
 
-// Lương cơ bản 
+// Lương cơ bản
 function kiemTraLuong(value, idErr, message) {
-  if(value<1e6 || value > 20e6){
+  if (value < 1e6 || value > 20e6) {
     getEle(idErr).innerHTML = message;
     getEle(idErr).style.display = "flex";
     return false;
-  }
-  else{
+  } else {
     getEle(idErr).innerHTML = "";
     return true;
   }
 }
 
 // Kiểm Tra Chức Vụ
-function kiemTraChucVu(value,idErr,message){
-  if(value === "sep" ||value === "truongphong"|| value==="nhanvien"){
+function kiemTraChucVu(value, idErr, message) {
+  if (value === "sep" || value === "truongphong" || value === "nhanvien") {
     getEle(idErr).innerHTML = "";
     return true;
-  }
-  else{
+  } else {
     getEle(idErr).innerHTML = message;
     getEle(idErr).style.display = "flex";
     return false;

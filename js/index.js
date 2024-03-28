@@ -46,7 +46,13 @@ document.querySelector("#btnThemNV").onclick = function () {
   isVaLid &=
     kiemTraRong(nv.email, "#tbEmail", "Email Không được để rỗng") &&
     kiemTraEmail(nv.email, "#tbEmail", "Email không đúng định dạng") &&
-    kiemTraTrungEmail(nv.email, DSNV, "#tbEmail", "Email Đã Tồn Tại");
+    kiemTraTrungEmail(
+      nv.email,
+      DSNV,
+      "#tbEmail",
+      "Email Đã Tồn Tại",
+      nv.taiKhoan
+    );
   isVaLid &=
     kiemTraRong(nv.matKhau, "#tbMatKhau", "Mật Khẩu Không được để rỗng") &&
     kiemTraDoDai(
@@ -77,6 +83,7 @@ document.querySelector("#btnThemNV").onclick = function () {
     var dataJson = JSON.stringify(DSNV);
     localStorage.setItem("DSNV_LOCAL", dataJson);
     renderDSNV(DSNV);
+    $("#myModal").modal("hide");
   }
 };
 
@@ -133,7 +140,13 @@ getEle("#btnCapNhat").onclick = function () {
   isVaLid &=
     kiemTraRong(nv.email, "#tbEmail", "Email Không được để rỗng") &&
     kiemTraEmail(nv.email, "#tbEmail", "Email không đúng định dạng") &&
-    kiemTraTrungEmail(nv.email, DSNV, "#tbEmail", "Email Đã Tồn Tại");
+    kiemTraTrungEmail(
+      nv.email,
+      DSNV,
+      "#tbEmail",
+      "Email Đã Tồn Tại",
+      nv.taiKhoan
+    );
   isVaLid &=
     kiemTraRong(nv.matKhau, "#tbMatKhau", "Mật Khẩu Không được để rỗng") &&
     kiemTraDoDai(
@@ -163,6 +176,7 @@ getEle("#btnCapNhat").onclick = function () {
     var dataJson = JSON.stringify(DSNV);
     localStorage.setItem("DSNV_LOCAL", dataJson);
     renderDSNV(DSNV);
+    $("#myModal").modal("hide");
   }
 };
 // Xử lý sự kiện cho nút "Thêm nhân viên"
